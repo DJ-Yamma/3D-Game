@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+	<title>
+		Game
+	</title>
+</head>
+
+<body>
+<canvas width="500" height="500"></canvas>
+<script src="https://unpkg.com/chs-js-lib@latest/dist/chs.iife.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var point = [0,0,1];
+    var viewInfo = [0,0,0,"Z"];
+    
+    var midX = getWidth()/2
+    var midY = getHeight()/2
+
+
+    drawPoint()
+    function drawPoint(){
+        if(viewInfo[3]=="Z"){
+            makeRec(midX, midY, 20,20, Color.YELLOW);
+        }
+    }
+
+
+    
+    //makes a quadralateral based on the 4 points, and the color
+    function makeQuad(Point1X,Point1Y,Point2X, Point2Y, Point3X, Point3Y, Point4X, Point4Y, Color){
+        var polygon = new Polygon();
+        polygon.addPoint(Point1X, Point1Y);
+        polygon.addPoint(Point2X, Point2Y);
+        polygon.addPoint(Point3X, Point3Y);
+        polygon.addPoint(Point4X, Point4Y);
+        polygon.setColor(Color);
+        add(polygon);
+    }
+
+    //makes a rectangle based on the middle X, middle Y, the width, the height, and the color
+    function makeRec( x, y, width, height, color){
+        var rec=new Rectangle(width, height);
+        rec.setPosition(x-width/2,y-height/2);
+        rec.setColor(color);
+        add(rec);
+    }
+
+    // makes a rectangle that is rotated based on the top left X and Y, the width, the height, the color, and the rotation
+    function makeRecRot(x,y,width,height, color, rotation){
+        var rec = new Rectangle(width, height);
+        rec.setColor(color);
+        rec.setPosition(x,y);
+        rec.setRotation(rotation, 0)
+        add(rec);
+    }
+
+    //makes text based on imputed text, font, color, and bottom left x postion, and y postion
+    function makeText(text, font, color, x, y){
+        var text = new Text(text, font);
+        text.setColor(color);
+        text.setPosition(x, y);
+        add(text);
+    }
+
+    //makes a line with a boarder around it
+    function makeBoardLine(sX,sY,eX,eY,width,color, bWidth, bColor){
+        var lineLength = getDistance(sX,sY,eX,eY);
+        var lineMidPoint = [sX+(eX-sX)/2,sY+(eY-sY)/2];
+        var timeMoves = (lineLength/2)/bWidth
+        var bSX = sX-(lineMidPoint[0]-sX)/timeMoves;
+        var bSY = sY-(lineMidPoint[1]-sY)/timeMoves;
+        var bEX = eX+(eX-lineMidPoint[0])/timeMoves;
+        var bEY = eY+(eY-lineMidPoint[1])/timeMoves;
+
+        makeLine(bSX,bSY, bEX, bEY, bWidth*2+width, bColor)
+        makeLine(sX,sY,eX,eY, width, color);
+    }
+
+    //makes a line based on imputed starting x, starting y, ending x, ending y, width, and color
+    function makeLine(sX,sY,eX,eY,width,color){
+        var line= new Line(sX,sY,eX,eY);
+        line.setColor(color);
+        line.setLineWidth(width);
+        add(line);
+    } 
+
+    //makes an arc, but the game does not use it or if it does it is for testing perposes
+    function makeArc(radius, sA, eA, unit, x, y, color){
+        var arc= new Arc(radius, sA, eA, unit);
+        arc.setColor(color);
+        arc.setPosition(x,y);
+        add(arc);
+    }
+
+    //makes an oval based on the center x and y, the width, the height, and the color
+    function makeOval(x, y, width, height, color){
+        var oval = new Oval(width, height);
+        oval.setPosition(x,y);
+        oval.setColor(color);
+        add(oval);
+    }
+
+    //makes a circle based on imputed radius, x postion, y postion, and color
+    function makeCircle(radius, x, y, color){
+        var circle=new Circle(radius);
+        circle.setPosition(x,y);
+        circle.setColor(color);
+        add(circle);
+    }
+
+
+
+</script>
+</body>
